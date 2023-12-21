@@ -9,7 +9,10 @@ const io = new Server(httpServer, {
 })
 
 io.on('connection', (socket) => {
-  console.log('a user connected')
+  socket.on('join_room', (roomId) => {
+    socket.join(roomId)
+    socket.to(roomId).emit('welcome')
+  })
 })
 
 httpServer.listen(3000, () => {

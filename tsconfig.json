@@ -9,6 +9,7 @@
         "allowJs": true,
         "moduleResolution": "node",
         "lib": ["dom", "es2015"],
+        "allowSyntheticDefaultImports": true
       },
-    "include": ["client/src/*.ts", "client/src/*.tsx", "client/build.config/*.js", "server/*.js", ".eslintrc.js"]
+    "include": ["client/src/**/*.ts", "client/src/**/*.tsx", "client/build.config/*.js", "server/*.js", ".eslintrc.js"]
 }

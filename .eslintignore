@@ -1,0 +1,10 @@
+node_modules
+
+#client
+# 빌드 결과물
+client/dist/**
+
+# 웹팩 설정 파일
+client/build.config/**
+
+#server

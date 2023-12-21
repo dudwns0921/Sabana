@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "strictNullChecks": true,
+        "outDir": "./dist/",
+        "noImplicitAny": true,
+        "module": "es6",
+        "target": "es5",
+        "jsx": "react",
+        "allowJs": true,
+        "moduleResolution": "node",
+        "lib": ["dom", "es2015"],
+      },
+    "include": ["client/src/*.ts", "client/src/*.tsx", "client/build.config/*.js", ".eslintrc.js"]
+}

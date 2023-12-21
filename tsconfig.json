@@ -10,5 +10,5 @@
         "moduleResolution": "node",
         "lib": ["dom", "es2015"],
       },
-    "include": ["client/src/*.ts", "client/src/*.tsx", "client/build.config/*.js", ".eslintrc.js"]
+    "include": ["client/src/*.ts", "client/src/*.tsx", "client/build.config/*.js", "server/*.js", ".eslintrc.js"]
 }

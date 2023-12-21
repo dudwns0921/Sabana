@@ -6,6 +6,12 @@ import App from './App'
 
 import './styles/index.css'
 
+import { io } from 'socket.io-client' // Rename the imported function
+
+console.log('hi')
+
+const socket = io('http://localhost:3000') // Use the renamed function
+
 const domNode = document.getElementById('root')
 
 createRoot(domNode!).render(

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSocket } from './context/SocketContext'
 import { useNavigate } from 'react-router-dom'
+import roomIdSlice from './store/roomIdSlice'
 
 function App() {
   const [roomId, setRoomId] = useState('')
@@ -26,7 +27,7 @@ function App() {
             type='text'
             value={roomId}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setRoomId(e.target.value)
+              roomIdSlice.actions.set(e.target.value)
             }}
             className='border border-black'
           ></input>

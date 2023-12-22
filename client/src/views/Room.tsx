@@ -1,26 +1,48 @@
 import React, { useEffect, useRef } from 'react'
+import { useSocket } from '../context/SocketContext'
 
 function Room() {
   const videoRef = useRef<HTMLVideoElement | null>(null)
+  const socket = useSocket()
 
   let stream: MediaStream | undefined
+  let myPeerConnection: RTCPeerConnection | undefined
+
+  async function initialize() {
+    stream = await getMedia()
+
+    if (stream !== null && stream !== undefined) {
+      if (videoRef.current !== null) videoRef.current.srcObject = stream
+      makeConnection()
+      socket?.on('welcome', async () => {
+        const offer = await myPeerConnection?.createOffer()
+        socket.emit('offer', offer)
+      })
+      socket?.on('offer', async (offer) => {
+        console.log(offer)
+      })
+    }
+  }
 
   async function getMedia() {
-    try {
-      stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: true,
-      })
+    stream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true,
+    })
 
-      if (stream !== null && videoRef.current !== null) {
-        videoRef.current.srcObject = stream
-      }
-    } catch (error) {}
+    return stream
+  }
+
+  function makeConnection() {
+    myPeerConnection = new RTCPeerConnection()
+    stream?.getTracks().forEach((track) => {
+      myPeerConnection?.addTrack(track)
+    })
   }
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getMedia()
+    initialize()
   }, [])
 
   return (

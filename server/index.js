@@ -9,9 +9,13 @@ const io = new Server(httpServer, {
 })
 
 io.on('connection', (socket) => {
-  socket.on('join_room', (roomId) => {
-    socket.join(roomId)
+  socket.on('join_room', async (roomId) => {
+    console.log('join room')
+    await socket.join(roomId)
     socket.to(roomId).emit('welcome')
+  })
+  socket.on('offer', (offer, roomId) => {
+    socket.to(roomId).emit('offer', offer)
   })
 })
 

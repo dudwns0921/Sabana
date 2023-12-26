@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSocket } from './context/SocketContext'
 import { useNavigate } from 'react-router-dom'
-import roomIdSlice from './store/roomIdSlice'
+import { set } from './store/roomIdSlice'
+import { useAppDispatch, useAppSelector } from './store/hooks'
 
 function App() {
-  const [roomId, setRoomId] = useState('')
+  const roomId = useAppSelector((state) => state.roomId.value)
+  const dispatch = useAppDispatch()
   const socket = useSocket()
   const navigate = useNavigate()
 
   function gotoRoom(e: React.FormEvent) {
     e.preventDefault()
     socket?.emit('join_room', roomId)
-    setRoomId('')
     navigate(`/room/${roomId}`)
   }
   return (
@@ -27,7 +28,7 @@ function App() {
             type='text'
             value={roomId}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              roomIdSlice.actions.set(e.target.value)
+              dispatch(set(e.target.value))
             }}
             className='border border-black'
           ></input>

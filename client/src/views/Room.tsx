@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 import { useSocket } from '../context/SocketContext'
+import { useAppSelector } from '../store/hooks'
 
 function Room() {
+  const roomId = useAppSelector((state) => state.roomId.value)
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const socket = useSocket()
 
@@ -9,16 +11,21 @@ function Room() {
   let myPeerConnection: RTCPeerConnection | undefined
 
   async function initialize() {
+    console.log('init')
     stream = await getMedia()
 
     if (stream !== null && stream !== undefined) {
       if (videoRef.current !== null) videoRef.current.srcObject = stream
       makeConnection()
       socket?.on('welcome', async () => {
+        console.log('received welcome event')
         const offer = await myPeerConnection?.createOffer()
-        socket.emit('offer', offer)
+        await myPeerConnection?.setLocalDescription(offer)
+        console.log('sending offer')
+        socket.emit('offer', offer, roomId)
       })
-      socket?.on('offer', async (offer) => {
+      socket?.on('offer', (offer) => {
+        console.log('received offer')
         console.log(offer)
       })
     }
@@ -49,7 +56,7 @@ function Room() {
     <>
       <video
         ref={videoRef}
-        className='w-full h-full'
+        className='w-1/3 h-1/3'
         autoPlay
         playsInline
       ></video>

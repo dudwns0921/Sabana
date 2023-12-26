@@ -1,29 +1,21 @@
 import * as React from 'react'
 
 import { createRoot } from 'react-dom/client'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import App from './App'
+import { RouterProvider } from 'react-router-dom'
 
 import './styles/index.css'
 
-import Room from './views/Room'
 import { SocketProvider } from './context/SocketContext'
+import { Provider } from 'react-redux'
+import { store } from './store'
+import router from './router'
 
 const domNode = document.getElementById('root')
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-  },
-  {
-    path: 'room/:id',
-    element: <Room />,
-  },
-])
-
 createRoot(domNode!).render(
-  <SocketProvider>
-    <RouterProvider router={router} />
-  </SocketProvider>,
+  <Provider store={store}>
+    <SocketProvider>
+      <RouterProvider router={router} />
+    </SocketProvider>
+  </Provider>,
 )

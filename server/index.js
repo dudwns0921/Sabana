@@ -7,15 +7,17 @@ const io = new Server(httpServer, {
     origin: 'http://localhost:8080',
   },
 })
-
+io.of()
 io.on('connection', (socket) => {
+  console.log(socket.handshake.query.tabId)
   socket.on('join_room', async (roomId) => {
-    console.log('join room')
+    console.log(`someone joined room ${roomId}`)
     await socket.join(roomId)
     socket.to(roomId).emit('welcome')
   })
   socket.on('offer', (offer, roomId) => {
-    socket.to(roomId).emit('offer', offer)
+    console.log('received offer')
+    socket.emit('offer', offer)
   })
 })
 

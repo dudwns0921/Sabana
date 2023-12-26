@@ -1,10 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { type RootState } from '.'
+
+interface roomIdState {
+  value: string
+}
+
+const initialState: roomIdState = {
+  value: '',
+}
 
 const roomIdSlice = createSlice({
   name: 'rooId',
-  initialState: {
-    value: '',
-  },
+  initialState,
   reducers: {
     set: (state, action) => {
       state.value = action.payload
@@ -12,4 +19,8 @@ const roomIdSlice = createSlice({
   },
 })
 
-export default roomIdSlice
+export const { set } = roomIdSlice.actions
+
+export const selectRoomId = (state: RootState) => state.roomId.value
+
+export default roomIdSlice.reducer

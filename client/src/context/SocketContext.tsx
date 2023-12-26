@@ -6,10 +6,9 @@ const SocketContext = createContext<Socket | undefined>(undefined)
 export const SocketProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const socket = io('http://localhost:3000')
-  socket.on('welcome', () => {
-    console.log('someone joined')
-  })
+  const tabId = Math.random().toString(36)
+  console.log('socket connection')
+  const socket = io('http://localhost:3000', { query: { tabId } })
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
